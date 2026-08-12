@@ -1,0 +1,38 @@
+Dear Editors,
+
+Please consider the enclosed paper, "Divisors in windows and the
+Euler-Mascheroni constant," for publication in [JOURNAL].
+
+The paper studies the average number of divisors of an integer q lying in
+an interval whose endpoints move with q, and separates two regimes. When
+both endpoints run along fixed powers of q, the averages obey a law from
+which Euler's constant is absent, and the average counts for two windows
+stand in the ratio of the windows' exponent lengths. When a window anchors
+at a growing threshold and its square root, the logarithms cancel instead
+and the average discrepancy equals Euler's constant exactly. Windows on
+the scale of q itself interpolate between the regimes; there the limiting
+constant is shown to depend on an endpoint convention, the two candidate
+constants differing precisely when the reciprocal of the scale parameter
+is an integer. The paper also isolates a logarithm-free approximation to
+Euler's constant converging at the rate (2/3)n^{-2}, and evaluates the
+mean of the scaled-window constants as zeta(2) - 1.
+
+One statement proved here has a history worth noting. The assertion that
+an integer has, on average, twice as many divisors in (n^{1/4}, n^{1/2})
+as in (n^{1/8}, n^{1/4}) follows from two applications of the
+Euler-constant interpretation, yet mentions no transcendental constant;
+the question of a proof that never passes through Euler's constant was
+posed publicly in October 2008 (arXiv:0810.1354) and has, to my
+knowledge, remained unaddressed since. The window law of Section 3
+answers it, and shows the phenomenon to be general.
+
+All arguments are elementary and self-contained. The principal theorems
+carry, or are scheduled to carry, machine verification in Lean 4 against
+the Mathlib library; the companion repository is cited in the paper's
+final version upon acceptance.
+
+The paper is not under consideration elsewhere.
+
+Sincerely,
+David V. Feldman
+University of New Hampshire
