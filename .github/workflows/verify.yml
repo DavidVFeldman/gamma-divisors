@@ -1,0 +1,65 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Get Mathlib cache
+        working-directory: lean
+        run: lake exe cache get || true
+
+      - name: Build
+        working-directory: lean
+        run: lake build
+
+      - name: Sorry audit
+        run: |
+          set -e
+          MATCHES=$(grep -rn --include='*.lean' -E '\bsorry\b' lean | grep -v '/\.lake/' || true)
+          if [ -n "$MATCHES" ]; then
+            echo "sorry found:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "sorry audit clean"
+
+      - name: Axiom audit
+        working-directory: lean
+        run: |
+          set -e
+          lake env lean GammaDivisors/Audit.lean | tee axiom-audit.txt
+          for T in sum_card_divisors_le tendsto_average_Zfix \
+                   tendsto_two_harmonic_sqrt_sub_harmonic; do
+            grep -q "GammaDivisors.$T' depends on axioms" axiom-audit.txt || {
+              echo "no axiom report for $T"; exit 1; }
+          done
+          BAD=$(sed -n 's/^.*depends on axioms: \[\(.*\)\]$/\1/p' axiom-audit.txt \
+            | tr ',' '\n' | sed 's/ //g' | sort -u \
+            | grep -v -E '^(propext|Classical\.choice|Quot\.sound)$' || true)
+          if [ -n "$BAD" ]; then
+            echo "unexpected axioms: $BAD"
+            exit 1
+          fi
+          echo "axiom audit clean"
+
+      - name: Upload audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-artifacts
+          path: |
+            lean/axiom-audit.txt
