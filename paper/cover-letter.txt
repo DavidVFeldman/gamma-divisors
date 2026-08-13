@@ -26,10 +26,15 @@ posed publicly in October 2008 (arXiv:0810.1354) and has, to my
 knowledge, remained unaddressed since. The window law of Section 3
 answers it, and shows the phenomenon to be general.
 
-All arguments are elementary and self-contained. The principal theorems
-carry, or are scheduled to carry, machine verification in Lean 4 against
-the Mathlib library; the companion repository is cited in the paper's
-final version upon acceptance.
+All arguments are elementary and self-contained. The principal results
+carry machine verification in Lean 4 against the Mathlib library: the
+counting identity on which the method rests, the fixed-window law, the
+main theorem in the instance F(q) = sqrt(q), the scaled-window theorem
+at alpha = 1/2 in both endpoint conventions, the vanishing of the window
+difference, and the rate of convergence of the logarithm-free
+approximation. Each depends only on the three axioms of Lean's standard
+foundation. The companion source is archived at
+https://doi.org/10.5281/zenodo.21909843 and cited in the paper.
 
 The paper is not under consideration elsewhere.
 

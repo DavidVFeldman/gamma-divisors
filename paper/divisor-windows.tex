@@ -732,6 +732,56 @@ $\eul=\lim_{n}\bigl(\sum_{k<n}1/k-\sum_{n<k\le n^{2}}1/k\bigr)$, with
 error below $n^{-2}$.
 \end{remark}
 
+\section{Formalization}\label{sec:formalization}
+
+The principal results of this paper have been checked by machine, in
+Lean~4 against the Mathlib library \cite{mathlib}, with the source
+archived at \cite{repo}.  Verified: the counting identity underlying
+Lemma~\ref{lem:swap}, in the form
+$\sum_{q\le B}\#\{d\mid q: d\le a\}=\sum_{d\le a}\lfloor B/d\rfloor$;
+the fixed-window law of Corollary~\ref{cor:fixed}; the limit
+$2H_{\lfloor\sqrt T\rfloor}-H_{T}\to\eul$ supplying the harmonic bracket
+in the proof of Theorem~\ref{thm:gamma}; Theorem~\ref{thm:gamma} itself
+in the instance $F(q)=\sqrt q$, by way of Remark~\ref{rem:power};
+Theorem~\ref{thm:scaled} at $\alpha=1/2$ in \emph{both} endpoint
+conventions, so that the discrepancy of $1/2$ between the two constants
+is itself a verified statement; the vanishing of the window difference
+in Corollary~\ref{cor:ratio}; and the rate of
+Proposition~\ref{prop:rate}.  Each carries a clean axiom audit,
+depending only on the three axioms of Lean's standard foundation.
+
+The formal development follows the organization of the proofs above.
+A counting layer supplies the divisor--codivisor correspondence and the
+splitting of divisor counts at successive powers.  Above it sits a
+single master asymptotic: writing
+$S(c,j,B)=\sum_{d}\bigl(\lfloor B/d\rfloor-c\,d^{\,j-1}\bigr)$,
+truncated where the summand vanishes,
+\[
+\frac{S(c,j,B)}{B}
+-\Bigl(\frac{1}{j}\bigl(\log B-\log c\bigr)+\eul-\frac1j\Bigr)
+\;\longrightarrow\;0
+\qquad (c\ge1,\ j\ge2),
+\]
+which is Theorem~\ref{thm:threshold} in the shape the applications
+need.  Each verified limit is then a linear combination of instances of
+this asymptotic, and the cancellations described in
+Remark~\ref{rem:gammafree} appear formally as the vanishing of the
+corresponding weight sums: for Corollary~\ref{cor:ratio} at exponents
+$j=2,4,8$ with weights $1,-3,2$, both
+$\tfrac12-\tfrac34+\tfrac28=0$ and $1-3+2=0$, killing the logarithm and
+the constant together.
+
+The one result whose formal proof departs substantially from the
+argument given above is Proposition~\ref{prop:rate}, where the
+Euler--Maclaurin expansion of Lemma~\ref{lem:harmonic} was replaced by
+an explicit two-sided bound: with
+$y_{m}=H_{m}-\log m-\frac1{2m}+\frac1{12m^{2}}$, the sequences
+$y_{m}\mp10m^{-3}$ are respectively monotone and antitone from $m=2$
+onward and both converge to $\eul$, trapping $\eul$ between them and
+yielding $|y_{m}-\eul|\le10m^{-3}$; this gives the effective form
+$\bigl|n^{2}(\eul-\eul_{n})-\tfrac23\bigr|\le31/n$ for $n\ge2$, of which
+Proposition~\ref{prop:rate} is the limiting case.
+
 \section{Questions}\label{sec:questions}
 
 \begin{question}\label{q:density}
@@ -771,6 +821,18 @@ S. R. Finch,
 \emph{Mathematical Constants},
 Encyclopedia of Mathematics and its Applications 94,
 Cambridge University Press, Cambridge, 2003.
+
+\bibitem{mathlib}
+The mathlib Community,
+The Lean mathematical library,
+\emph{CPP 2020: Proceedings of the 9th ACM SIGPLAN International
+Conference on Certified Programs and Proofs}, 367--381.
+
+\bibitem{repo}
+D. V. Feldman,
+\texttt{gamma-divisors}: formalization companion to
+\emph{Divisors in windows and the Euler--Mascheroni constant},
+Zenodo, 2026, \texttt{https://doi.org/10.5281/zenodo.21909843}.
 
 \bibitem{GKP}
 R. L. Graham, D. E. Knuth, and O. Patashnik,

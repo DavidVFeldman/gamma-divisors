@@ -43,7 +43,10 @@ jobs:
           set -e
           lake env lean GammaDivisors/Audit.lean | tee axiom-audit.txt
           for T in sum_card_divisors_le tendsto_average_Zfix \
-                   tendsto_two_harmonic_sqrt_sub_harmonic; do
+                   tendsto_two_harmonic_sqrt_sub_harmonic \
+                   tendsto_average_Z tendsto_average_Zhalf_open \
+                   tendsto_average_Zhalf_closed tendsto_rate_gamma_seq \
+                   tendsto_average_window_difference; do
             grep -q "GammaDivisors.$T' depends on axioms" axiom-audit.txt || {
               echo "no axiom report for $T"; exit 1; }
           done

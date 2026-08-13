@@ -1,5 +1,7 @@
 # gamma-divisors
 
+[![DOI](https://zenodo.org/badge/1332444354.svg)](https://doi.org/10.5281/zenodo.21909843)
+
 Companion repository for the paper *Divisors in windows and the
 Euler–Mascheroni constant* (D. V. Feldman), with a Lean 4 / Mathlib
 formalization campaign.
@@ -32,10 +34,8 @@ to c·log B + (γ − c) + O(B^(−min(c,1−c))). Consequences:
 - `lean/` — Lake project; `GammaDivisors/Targets.lean` holds the
   Commission 1 targets (Tiers 1–3)
 - `commissions/commission-01.md` — work order for Commission 1 (returned, closed)
-- `commissions/commission-02.md` — work order for Commission 2 (Tiers 4–6, open)
+- `commissions/commission-02.md` — work order for Commission 2 (returned, closed)
 - `commissions/returns/commission-01-return.md` — Aristotle's return note
-- `commissions/roadmap-tiers-4-6.lean` — Tier 4–6 statements, held outside
-  the build until proved (only proved material enters `lean/`)
 - `.github/workflows/verify.yml` — CI: lake build, sorry audit (excluding
   `.lake/`), axiom audit (sed-parsed; only `propext`, `Classical.choice`,
   `Quot.sound` accepted), audit artifacts uploaded
@@ -57,13 +57,18 @@ committed for reproducibility.
 | 1 | Counting identity: Σ_{q≤B} #{d ∣ q : d ≤ a} = Σ_{d≤a} ⌊B/d⌋ | **closed** |
 | 2 | Fixed-window law: average → 2H_a − H_b | **closed** |
 | 3 | Harmonic bridge: 2H_⌊√T⌋ − H_T → γ | **closed** |
-| 4 | Main theorem, F(q) = √q: average of Z → γ | open |
-| 5 | α = 1/2 scaled windows, both conventions (→ 3/2 − log 2, → 1 − log 2) | open |
-| 6 | Rate n²(γ − γ_n) → 2/3; γ-free window difference → 0 | open |
+| 4 | Main theorem, F(q) = √q: average of Z → γ | **closed** |
+| 5 | α = 1/2 scaled windows, both conventions (→ 3/2 − log 2, → 1 − log 2) | **closed** |
+| 6 | Rate n²(γ − γ_n) → 2/3; γ-free window difference → 0 | **closed** |
 
-Tiers 1–3 close Commission 1: proved sorry-free, each depending only on
-`propext`, `Classical.choice`, `Quot.sound`. Tiers 4–6 remain in
-`commissions/roadmap-tiers-4-6.lean`, outside the build.
+All eight commissioned targets are proved sorry-free, each depending only on
+`propext`, `Classical.choice`, `Quot.sound`. Tiers 1–3 closed in Commission 1,
+Tiers 4–6 in Commission 2.
+
+The Lean development is organized as: `Counting.lean` (divisor/codivisor
+counting, splitting of divisor counts by powers), `Asymptotics.lean` (the
+master asymptotic for truncated divisor sums, from which every tier's limit
+follows), then one file per tier, plus `Audit.lean`.
 
 ## Numerical anchors (B = 4·10⁵ unless noted)
 
@@ -77,4 +82,7 @@ Tiers 1–3 close Commission 1: proved sorry-free, each depending only on
 
 ## Archive
 
-Zenodo DOI: (to be minted on first release)
+Archived on Zenodo. Concept DOI (always resolves to the latest version):
+[10.5281/zenodo.21909843](https://doi.org/10.5281/zenodo.21909843).
+Version DOI for `v0.1` (Commission 1, Tiers 1–3 verified):
+[10.5281/zenodo.21909844](https://doi.org/10.5281/zenodo.21909844).
